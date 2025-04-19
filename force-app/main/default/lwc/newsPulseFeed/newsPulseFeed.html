@@ -1,0 +1,43 @@
+<template>
+    <lightning-card title="📰 NewsPulse Feed" icon-name="custom:custom63">
+        <div class="slds-p-horizontal_medium">
+            <lightning-button
+                label="🔄 Fetch Latest News"
+                onclick={handleFetch}
+                class="slds-m-bottom_medium"
+                variant="brand">
+            </lightning-button>
+        </div>
+
+        <template if:true={totalArticles}>
+            <p class="article-count slds-m-left_medium slds-m-bottom_small">📰 Total Articles: {totalArticles}</p>
+        </template>
+
+        <template if:true={groupedArticles}>
+            <template for:each={groupedArticles} for:item="group">
+                <div key={group.category} class="category-section">
+                    <h2 class="category-title">🏷️ {group.category}</h2>
+                    <div class="news-grid">
+                        <template for:each={group.articles} for:item="article">
+                            <div key={article.Id} class="news-card">
+                                <div class="content">
+                                    <a href={article.URL__c} target="_blank" class="title">{article.Title__c}</a>
+                                    <p class="category-label">{article.Category__c}</p>
+                                    <div class="meta">
+                                        <span class="source">📡 {article.Source_Name__c}</span>
+                                        <span class="date">🗓 {article.Published_Date__c}</span>
+                                    </div>
+                                    <p class="snippet">📝 {article.Snippet__c}</p>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </template>
+        </template>
+
+        <template if:false={groupedArticles}>
+            <p class="slds-p-around_medium">No news found.</p>
+        </template>
+    </lightning-card>
+</template>
